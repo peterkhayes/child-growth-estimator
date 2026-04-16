@@ -469,19 +469,23 @@ export default function App() {
           {weightProjection && (
             <div className="space-y-3">
               {weightProjection.childRow && (
-                <div className="bg-indigo-50 rounded-xl p-4">
-                  <p className="text-sm font-semibold text-indigo-800 mb-1">Your child's estimated age to reach {toDisplayW(queryWeight, unit)} {wUnit}</p>
-                  <p className="text-sm text-indigo-700">
-                    Expected around: <strong>{weightProjection.childRow.age}</strong>
-                    {weightProjection.childRow.date && <span className="text-indigo-500"> ({weightProjection.childRow.date})</span>}
-                  </p>
-                  {weightProjection.childRow.ageEarly && weightProjection.childRow.ageLate && (
-                    <p className="text-xs text-indigo-400 mt-1">
-                      Range: {weightProjection.childRow.ageEarly} – {weightProjection.childRow.ageLate}
-                      {weightProjection.childRow.dateEarly && weightProjection.childRow.dateLate &&
-                        ` (${weightProjection.childRow.dateEarly} – ${weightProjection.childRow.dateLate})`}
+                <div className="bg-indigo-50 rounded-2xl p-5 space-y-4">
+                  <p className="text-xs font-semibold text-indigo-400 uppercase tracking-wide">Estimated age to reach {toDisplayW(queryWeight, unit)} {wUnit}</p>
+                  <div>
+                    <p className="text-xs font-medium text-indigo-400 mb-0.5">Age</p>
+                    <p className="text-xl font-bold text-indigo-700">
+                      {weightProjection.childRow.ageEarly && weightProjection.childRow.ageLate
+                        ? `${weightProjection.childRow.ageEarly} – ${weightProjection.childRow.ageLate}`
+                        : weightProjection.childRow.age}
                     </p>
-                  )}
+                    {weightProjection.childRow.date && (
+                      <p className="text-xs text-indigo-400">
+                        {weightProjection.childRow.dateEarly && weightProjection.childRow.dateLate
+                          ? `${weightProjection.childRow.dateEarly} – ${weightProjection.childRow.dateLate}`
+                          : weightProjection.childRow.date}
+                      </p>
+                    )}
+                  </div>
                 </div>
               )}
               <div>
@@ -512,19 +516,23 @@ export default function App() {
           {heightProjection && (
             <div className="space-y-3">
               {heightProjection.childRow && (
-                <div className="bg-indigo-50 rounded-xl p-4">
-                  <p className="text-sm font-semibold text-indigo-800 mb-1">Your child's estimated age to reach {toDisplayH(queryHeight, unit)} {hUnit}</p>
-                  <p className="text-sm text-indigo-700">
-                    Expected around: <strong>{heightProjection.childRow.age}</strong>
-                    {heightProjection.childRow.date && <span className="text-indigo-500"> ({heightProjection.childRow.date})</span>}
-                  </p>
-                  {heightProjection.childRow.ageEarly && heightProjection.childRow.ageLate && (
-                    <p className="text-xs text-indigo-400 mt-1">
-                      Range: {heightProjection.childRow.ageEarly} – {heightProjection.childRow.ageLate}
-                      {heightProjection.childRow.dateEarly && heightProjection.childRow.dateLate &&
-                        ` (${heightProjection.childRow.dateEarly} – ${heightProjection.childRow.dateLate})`}
+                <div className="bg-indigo-50 rounded-2xl p-5 space-y-4">
+                  <p className="text-xs font-semibold text-indigo-400 uppercase tracking-wide">Estimated age to reach {toDisplayH(queryHeight, unit)} {hUnit}</p>
+                  <div>
+                    <p className="text-xs font-medium text-indigo-400 mb-0.5">Age</p>
+                    <p className="text-xl font-bold text-indigo-700">
+                      {heightProjection.childRow.ageEarly && heightProjection.childRow.ageLate
+                        ? `${heightProjection.childRow.ageEarly} – ${heightProjection.childRow.ageLate}`
+                        : heightProjection.childRow.age}
                     </p>
-                  )}
+                    {heightProjection.childRow.date && (
+                      <p className="text-xs text-indigo-400">
+                        {heightProjection.childRow.dateEarly && heightProjection.childRow.dateLate
+                          ? `${heightProjection.childRow.dateEarly} – ${heightProjection.childRow.dateLate}`
+                          : heightProjection.childRow.date}
+                      </p>
+                    )}
+                  </div>
                 </div>
               )}
               <div>
