@@ -577,12 +577,12 @@ export default function App() {
                       <td className="py-2 px-3 text-gray-500 text-xs">{fmtDate(r.date)}</td>
                       <td className="py-2 px-3 text-gray-700">
                         {r.estW !== null
-                          ? <strong>{r.wUncert !== null ? `${fmtW(r.estW - r.wUncert)} – ${fmtW(r.estW + r.wUncert)}` : fmtW(r.estW)}</strong>
+                          ? (r.wUncert !== null ? `${fmtW(r.estW - r.wUncert)} – ${fmtW(r.estW + r.wUncert)}` : fmtW(r.estW))
                           : <span className="text-gray-300">—</span>}
                       </td>
                       <td className="py-2 px-3 text-gray-700">
                         {r.estH !== null
-                          ? <strong>{r.hUncert !== null ? `${fmtH(r.estH - r.hUncert)} – ${fmtH(r.estH + r.hUncert)}` : fmtH(r.estH)}</strong>
+                          ? (r.hUncert !== null ? `${fmtH(r.estH - r.hUncert)} – ${fmtH(r.estH + r.hUncert)}` : fmtH(r.estH))
                           : <span className="text-gray-300">—</span>}
                       </td>
                     </tr>
