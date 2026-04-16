@@ -1,6 +1,6 @@
 # Child Growth Estimator
 
-A client-side tool for tracking a child's growth against CDC 2000 percentile charts.
+A client-side tool for estimating a child's growth against CDC 2000 percentile charts.
 
 All data is stored in your browser's local storage. No data is ever sent to a server.
 
