@@ -136,6 +136,34 @@ export default function App() {
   const sdHZ  = avgHZ !== null ? weightedZSD(hEntries, avgHZ) : null;
   const sdWZ  = avgWZ !== null ? weightedZSD(wEntries, avgWZ) : null;
 
+  const fmtH = (cm: number) => unit === "imperial" ? `${cmToIn(cm)}"` : `${cm.toFixed(1)} cm`;
+  const fmtW = (kg: number) => unit === "imperial" ? `${kgToLb(kg)} lb` : `${kg.toFixed(1)} kg`;
+
+  const birthdayProjections = useMemo(() => {
+    if (!birthday || (avgHZ === null && avgWZ === null)) return null;
+    const today = new Date();
+    const hTable = CDC[sex].height, wTable = CDC[sex].weight;
+    const maxAge = Math.max(hTable[hTable.length - 1][0], wTable[wTable.length - 1][0]);
+    const rows = [];
+    for (let year = 1; year * 12 <= maxAge; year++) {
+      const ageMonths = year * 12;
+      const date = dateAtAge(birthday, ageMonths);
+      if (date <= today) continue;
+      const hLMS = lmsInterpolate(hTable, ageMonths);
+      const wLMS = lmsInterpolate(wTable, ageMonths);
+      const estH = avgHZ !== null ? zToMeasurement(avgHZ, ...hLMS) : null;
+      const estW = avgWZ !== null ? zToMeasurement(avgWZ, ...wLMS) : null;
+      const hUncert = estH !== null && sdHZ !== null
+        ? (zToMeasurement(avgHZ! + sdHZ, ...hLMS) - zToMeasurement(avgHZ! - sdHZ, ...hLMS)) / 2
+        : null;
+      const wUncert = estW !== null && sdWZ !== null
+        ? (zToMeasurement(avgWZ! + sdWZ, ...wLMS) - zToMeasurement(avgWZ! - sdWZ, ...wLMS)) / 2
+        : null;
+      rows.push({ year, date, estH, estW, hUncert, wUncert });
+    }
+    return rows.length > 0 ? rows : null;
+  }, [birthday, sex, avgHZ, avgWZ, sdHZ, sdWZ]);
+
   const ageProjection = useMemo(() => {
     if (queryMode !== "age") return null;
     const qa = parseFloat(queryAge);
@@ -148,8 +176,6 @@ export default function App() {
       h: unit === "imperial" ? `${cmToIn(zToMeasurement(z, ...hLMS))}"` : `${zToMeasurement(z, ...hLMS).toFixed(1)} cm`,
       w: unit === "imperial" ? `${kgToLb(zToMeasurement(z, ...wLMS))} lb` : `${zToMeasurement(z, ...wLMS).toFixed(1)} kg`,
     }));
-    const fmtH = (cm: number) => unit === "imperial" ? `${cmToIn(cm)}"` : `${cm.toFixed(1)} cm`;
-    const fmtW = (kg: number) => unit === "imperial" ? `${kgToLb(kg)} lb` : `${kg.toFixed(1)} kg`;
     let childRow = null;
     if (avgHZ !== null && avgWZ !== null) {
       const estH = zToMeasurement(avgHZ, ...hLMS), estW = zToMeasurement(avgWZ, ...wLMS);
@@ -513,6 +539,42 @@ export default function App() {
             </div>
           )}
         </div>
+
+        {birthdayProjections && (
+          <div className="bg-white rounded-2xl shadow-sm p-5">
+            <h2 className="font-semibold text-gray-700 mb-3">Future Birthday Projections</h2>
+            <div className="overflow-hidden rounded-xl border border-gray-100">
+              <table className="w-full text-sm">
+                <thead className="bg-gray-50 text-gray-500 text-xs">
+                  <tr>
+                    <th className="text-left py-2 px-3">Age</th>
+                    <th className="text-left py-2 px-3">Date</th>
+                    <th className="text-left py-2 px-3">Weight</th>
+                    <th className="text-left py-2 px-3">Height</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {birthdayProjections.map((r, i) => (
+                    <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-gray-50"}>
+                      <td className="py-2 px-3 font-medium text-gray-600">{r.year} {r.year === 1 ? "year" : "years"}</td>
+                      <td className="py-2 px-3 text-gray-500 text-xs">{fmtDate(r.date)}</td>
+                      <td className="py-2 px-3 text-gray-700">
+                        {r.estW !== null
+                          ? <><strong>{fmtW(r.estW)}</strong>{r.wUncert !== null && <span className="text-gray-400"> ± {fmtW(r.wUncert)}</span>}</>
+                          : <span className="text-gray-300">—</span>}
+                      </td>
+                      <td className="py-2 px-3 text-gray-700">
+                        {r.estH !== null
+                          ? <><strong>{fmtH(r.estH)}</strong>{r.hUncert !== null && <span className="text-gray-400"> ± {fmtH(r.hUncert)}</span>}</>
+                          : <span className="text-gray-300">—</span>}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
 
         <p className="text-center text-xs text-gray-400 pb-4">Estimates based on CDC 2000 Growth Charts. For informational purposes only — always consult your pediatrician. Data is stored in local storage only; no data leaves your computer.</p>
       </div>
