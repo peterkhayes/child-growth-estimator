@@ -187,10 +187,7 @@ export default function App() {
         ? (zToMeasurement(avgWZ + sdWZ, ...wLMS) - zToMeasurement(avgWZ - sdWZ, ...wLMS)) / 2
         : null;
       childRow = {
-        estH: fmtH(estH),
-        estW: fmtW(estW),
-        estHUncert: hUncert !== null ? fmtH(hUncert) : null,
-        estWUncert: wUncert !== null ? fmtW(wUncert) : null,
+        estH, estW, hUncert, wUncert,
         hPct: (zToPercentile(avgHZ) * 100).toFixed(1),
         wPct: (zToPercentile(avgWZ) * 100).toFixed(1),
       };
@@ -423,8 +420,16 @@ export default function App() {
                     )}
                   </p>
                   <div className="flex gap-6 text-sm text-indigo-700">
-                    <span>Weight: <strong>{ageProjection.childRow.estW}</strong>{ageProjection.childRow.estWUncert && <> ± {ageProjection.childRow.estWUncert}</>} ({ageProjection.childRow.wPct}th pct)</span>
-                    <span>Height: <strong>{ageProjection.childRow.estH}</strong>{ageProjection.childRow.estHUncert && <> ± {ageProjection.childRow.estHUncert}</>} ({ageProjection.childRow.hPct}th pct)</span>
+                    <span>Weight: <strong>
+                      {ageProjection.childRow.wUncert !== null
+                        ? `${fmtW(ageProjection.childRow.estW - ageProjection.childRow.wUncert)} – ${fmtW(ageProjection.childRow.estW + ageProjection.childRow.wUncert)}`
+                        : fmtW(ageProjection.childRow.estW)}
+                    </strong> ({ageProjection.childRow.wPct}th pct)</span>
+                    <span>Height: <strong>
+                      {ageProjection.childRow.hUncert !== null
+                        ? `${fmtH(ageProjection.childRow.estH - ageProjection.childRow.hUncert)} – ${fmtH(ageProjection.childRow.estH + ageProjection.childRow.hUncert)}`
+                        : fmtH(ageProjection.childRow.estH)}
+                    </strong> ({ageProjection.childRow.hPct}th pct)</span>
                   </div>
                 </div>
               )}
@@ -560,12 +565,12 @@ export default function App() {
                       <td className="py-2 px-3 text-gray-500 text-xs">{fmtDate(r.date)}</td>
                       <td className="py-2 px-3 text-gray-700">
                         {r.estW !== null
-                          ? <><strong>{fmtW(r.estW)}</strong>{r.wUncert !== null && <span className="text-gray-400"> ± {fmtW(r.wUncert)}</span>}</>
+                          ? <strong>{r.wUncert !== null ? `${fmtW(r.estW - r.wUncert)} – ${fmtW(r.estW + r.wUncert)}` : fmtW(r.estW)}</strong>
                           : <span className="text-gray-300">—</span>}
                       </td>
                       <td className="py-2 px-3 text-gray-700">
                         {r.estH !== null
-                          ? <><strong>{fmtH(r.estH)}</strong>{r.hUncert !== null && <span className="text-gray-400"> ± {fmtH(r.hUncert)}</span>}</>
+                          ? <strong>{r.hUncert !== null ? `${fmtH(r.estH - r.hUncert)} – ${fmtH(r.estH + r.hUncert)}` : fmtH(r.estH)}</strong>
                           : <span className="text-gray-300">—</span>}
                       </td>
                     </tr>
