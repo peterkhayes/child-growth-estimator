@@ -413,12 +413,9 @@ export default function App() {
             <div className="space-y-3">
               {ageProjection.childRow && (
                 <div className="bg-indigo-50 rounded-2xl p-5 space-y-4">
-                  <div>
-                    <p className="text-xs font-semibold text-indigo-400 uppercase tracking-wide mb-0.5">Estimated at age {queryAge}y</p>
-                    {ageProjection.queryDate && (
-                      <p className="text-sm text-indigo-400">{ageProjection.queryDate}</p>
-                    )}
-                  </div>
+                  <p className="text-xs font-semibold text-indigo-400 uppercase tracking-wide">
+                    Estimated at age {queryAge}y{ageProjection.queryDate && <span className="font-normal normal-case"> ({ageProjection.queryDate})</span>}
+                  </p>
                   <div className="flex gap-6">
                     <div>
                       <p className="text-xl font-bold text-indigo-700">
