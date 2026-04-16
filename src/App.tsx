@@ -421,7 +421,6 @@ export default function App() {
                   </div>
                   <div className="flex gap-6">
                     <div>
-                      <p className="text-xs font-medium text-indigo-400 mb-0.5">Weight</p>
                       <p className="text-xl font-bold text-indigo-700">
                         {ageProjection.childRow.wUncert !== null
                           ? `${fmtW(ageProjection.childRow.estW - ageProjection.childRow.wUncert)} – ${fmtW(ageProjection.childRow.estW + ageProjection.childRow.wUncert)}`
@@ -430,7 +429,6 @@ export default function App() {
                       <p className="text-xs text-indigo-400">{ageProjection.childRow.wPct}th percentile</p>
                     </div>
                     <div>
-                      <p className="text-xs font-medium text-indigo-400 mb-0.5">Height</p>
                       <p className="text-xl font-bold text-indigo-700">
                         {ageProjection.childRow.hUncert !== null
                           ? `${fmtH(ageProjection.childRow.estH - ageProjection.childRow.hUncert)} – ${fmtH(ageProjection.childRow.estH + ageProjection.childRow.hUncert)}`
@@ -472,7 +470,6 @@ export default function App() {
                 <div className="bg-indigo-50 rounded-2xl p-5 space-y-4">
                   <p className="text-xs font-semibold text-indigo-400 uppercase tracking-wide">Estimated age to reach {toDisplayW(queryWeight, unit)} {wUnit}</p>
                   <div>
-                    <p className="text-xs font-medium text-indigo-400 mb-0.5">Age</p>
                     <p className="text-xl font-bold text-indigo-700">
                       {weightProjection.childRow.ageEarly && weightProjection.childRow.ageLate
                         ? `${weightProjection.childRow.ageEarly} – ${weightProjection.childRow.ageLate}`
@@ -519,7 +516,6 @@ export default function App() {
                 <div className="bg-indigo-50 rounded-2xl p-5 space-y-4">
                   <p className="text-xs font-semibold text-indigo-400 uppercase tracking-wide">Estimated age to reach {toDisplayH(queryHeight, unit)} {hUnit}</p>
                   <div>
-                    <p className="text-xs font-medium text-indigo-400 mb-0.5">Age</p>
                     <p className="text-xl font-bold text-indigo-700">
                       {heightProjection.childRow.ageEarly && heightProjection.childRow.ageLate
                         ? `${heightProjection.childRow.ageEarly} – ${heightProjection.childRow.ageLate}`
