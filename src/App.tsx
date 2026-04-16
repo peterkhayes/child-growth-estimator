@@ -5,6 +5,7 @@ import {
   findAgeForMeasurement, fmtMonths, fmtDate, ageMonthsBetween, dateAtAge, weightedZAvg, weightedZSD, PCTS,
 } from "./lms-math.js";
 import { loadData, saveData, type Measurement, type StoredData } from "./storage.js";
+import { encodeShare, decodeShare, SHARE_PARAM } from "./share.js";
 
 type Sex = "boys" | "girls";
 type Unit = "metric" | "imperial";
@@ -40,6 +41,7 @@ export default function App() {
   const [measurements, setMeasurements] = useState<Measurement[]>([{ ...EMPTY_MEASUREMENT }]);
   const [unit, setUnit] = useState<Unit>("metric");
   const [saveStatus, setSaveStatus] = useState<SaveStatus>(null);
+  const [copied, setCopied] = useState(false);
   const [queryMode, setQueryMode] = useState<QueryMode>("age");
   const [queryAge, setQueryAge] = useState("");
   const [queryHeight, setQueryHeight] = useState("");
@@ -48,16 +50,29 @@ export default function App() {
   useEffect(() => {
     (async () => {
       try {
+        const params = new URLSearchParams(window.location.search);
+        const shared = params.get(SHARE_PARAM);
+        if (shared) {
+          history.replaceState(null, "", window.location.pathname);
+          const payload = decodeShare(shared);
+          if (payload) {
+            setBirthday(payload.birthday);
+            setSex(payload.sex as Sex);
+            setMeasurements(payload.measurements.length ? payload.measurements : [{ ...EMPTY_MEASUREMENT }]);
+            await saveData({ birthday: payload.birthday, sex: payload.sex, unit: "metric", measurements: payload.measurements, queryAge: "", queryHeight: "", queryWeight: "", queryMode: "age" });
+            return;
+          }
+        }
         const d = await loadData();
         if (d) {
-          if (d.birthday)           setBirthday(d.birthday);
-          if (d.sex)                setSex(d.sex as Sex);
-          if (d.unit)               setUnit(d.unit as Unit);
+          if (d.birthday)             setBirthday(d.birthday);
+          if (d.sex)                  setSex(d.sex as Sex);
+          if (d.unit)                 setUnit(d.unit as Unit);
           if (d.measurements?.length) setMeasurements(d.measurements);
-          if (d.queryAge)           setQueryAge(d.queryAge);
-          if (d.queryHeight)        setQueryHeight(d.queryHeight);
-          if (d.queryWeight)        setQueryWeight(d.queryWeight);
-          if (d.queryMode)          setQueryMode(d.queryMode as QueryMode);
+          if (d.queryAge)             setQueryAge(d.queryAge);
+          if (d.queryHeight)          setQueryHeight(d.queryHeight);
+          if (d.queryWeight)          setQueryWeight(d.queryWeight);
+          if (d.queryMode)            setQueryMode(d.queryMode as QueryMode);
         }
       } catch { /* ignore */ }
       finally { setLoaded(true); }
@@ -80,6 +95,14 @@ export default function App() {
   const handleQueryAge    = (val: string)    => { setQueryAge(val);      persist({ queryAge: val }); };
   const handleQueryHeight = (val: string)    => { setQueryHeight(val);   persist({ queryHeight: val }); };
   const handleQueryWeight = (val: string)    => { setQueryWeight(val);   persist({ queryWeight: val }); };
+
+  const handleShare = async () => {
+    const encoded = encodeShare({ birthday, sex, measurements });
+    const url = `${window.location.origin}${window.location.pathname}?${SHARE_PARAM}=${encoded}`;
+    await navigator.clipboard.writeText(url);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   const addRow = () => {
     const m = [...measurements, { ...EMPTY_MEASUREMENT }];
@@ -305,6 +328,12 @@ export default function App() {
               </div>
             </div>
           </div>
+          {birthday && (
+            <button onClick={handleShare}
+              className={`${btnCls} w-full ${copied ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}>
+              {copied ? "Link copied!" : "Share with data"}
+            </button>
+          )}
         </div>
 
         {/* Measurements */}
