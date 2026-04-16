@@ -33,7 +33,7 @@ jobs:
       - run: npm run build
         env:
           # Set to /your-repo-name/ to match the GitHub Pages URL path.
-          BASE: /child-growth/
+          BASE: /child-growth-estimator/
 
       - uses: actions/upload-pages-artifact@v3
         with:
