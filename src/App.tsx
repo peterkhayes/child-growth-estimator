@@ -483,7 +483,7 @@ export default function App() {
                 </div>
               )}
               <div>
-                <p className="text-xs text-gray-500 mb-2 font-medium">CDC: Age to reach {queryWeight} {wUnit} by percentile</p>
+                <p className="text-xs text-gray-500 mb-2 font-medium">CDC: Age to reach {toDisplayW(queryWeight, unit)} {wUnit} by percentile</p>
                 <div className="overflow-hidden rounded-xl border border-gray-100">
                   <table className="w-full text-sm">
                     <thead className="bg-gray-50 text-gray-500 text-xs">
@@ -529,7 +529,7 @@ export default function App() {
                 </div>
               )}
               <div>
-                <p className="text-xs text-gray-500 mb-2 font-medium">CDC: Age to reach {queryHeight} {hUnit} by percentile</p>
+                <p className="text-xs text-gray-500 mb-2 font-medium">CDC: Age to reach {toDisplayH(queryHeight, unit)} {hUnit} by percentile</p>
                 <div className="overflow-hidden rounded-xl border border-gray-100">
                   <table className="w-full text-sm">
                     <thead className="bg-gray-50 text-gray-500 text-xs">
