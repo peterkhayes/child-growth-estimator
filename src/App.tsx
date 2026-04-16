@@ -431,7 +431,7 @@ export default function App() {
             <div className="space-y-3">
               {weightProjection.childRow && (
                 <div className="bg-indigo-50 rounded-xl p-4">
-                  <p className="text-sm font-semibold text-indigo-800 mb-1">Your child's estimated age to reach {queryWeight} {wUnit}</p>
+                  <p className="text-sm font-semibold text-indigo-800 mb-1">Your child's estimated age to reach {toDisplayW(queryWeight, unit)} {wUnit}</p>
                   <p className="text-sm text-indigo-700">
                     Expected around: <strong>{weightProjection.childRow.age}</strong>
                     {weightProjection.childRow.date && <span className="text-indigo-500"> ({weightProjection.childRow.date})</span>}
@@ -474,7 +474,7 @@ export default function App() {
             <div className="space-y-3">
               {heightProjection.childRow && (
                 <div className="bg-indigo-50 rounded-xl p-4">
-                  <p className="text-sm font-semibold text-indigo-800 mb-1">Your child's estimated age to reach {queryHeight} {hUnit}</p>
+                  <p className="text-sm font-semibold text-indigo-800 mb-1">Your child's estimated age to reach {toDisplayH(queryHeight, unit)} {hUnit}</p>
                   <p className="text-sm text-indigo-700">
                     Expected around: <strong>{heightProjection.childRow.age}</strong>
                     {heightProjection.childRow.date && <span className="text-indigo-500"> ({heightProjection.childRow.date})</span>}
