@@ -73,7 +73,7 @@ export function fmtMonths(months: number): string {
   let y = Math.floor(months / 12), m = Math.round(months % 12);
   if (m === 12) { y += 1; m = 0; }
   if (y === 0) return `${m} month${m !== 1 ? "s" : ""}`;
-  if (m === 0) return `${y} year${y !== 1 ? "s" : ""}`;
+  if (m === 0) return `${y}y`;
   return `${y}y ${m}mo`;
 }
 

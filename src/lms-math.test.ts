@@ -220,11 +220,11 @@ describe("fmtMonths", () => {
     [0,    "0 months"],
     [1,    "1 month"],
     [2,    "2 months"],
-    [12,   "1 year"],
-    [24,   "2 years"],
+    [12,   "1y"],
+    [24,   "2y"],
     [13,   "1y 1mo"],
     [25,   "2y 1mo"],
-    [47.9, "4 years"],  // rounds up to 12mo → normalises to next year
+    [47.9, "4y"],  // rounds up to 12mo → normalises to next year
   ])("fmtMonths(%i) → %s", (months, expected) => {
     expect(fmtMonths(months)).toBe(expected);
   });
