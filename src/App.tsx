@@ -289,7 +289,7 @@ export default function App() {
       <div className="max-w-2xl mx-auto space-y-5">
 
         <div className="text-center pt-4">
-          <h1 className="text-2xl font-bold text-indigo-800">Child Growth Tracker</h1>
+          <h1 className="text-2xl font-bold text-indigo-800">Child Growth Estimator</h1>
 
           {saveStatus === "error" && (
             <p className="text-xs mt-1 text-red-400">⚠ Save failed</p>
