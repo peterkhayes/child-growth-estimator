@@ -412,24 +412,32 @@ export default function App() {
           {ageProjection && (
             <div className="space-y-3">
               {ageProjection.childRow && (
-                <div className="bg-indigo-50 rounded-xl p-4">
-                  <p className="text-sm font-semibold text-indigo-800 mb-1">
-                    Your child's estimated values at age {queryAge}y
+                <div className="bg-indigo-50 rounded-2xl p-5 space-y-4">
+                  <div>
+                    <p className="text-xs font-semibold text-indigo-400 uppercase tracking-wide mb-0.5">Estimated at age {queryAge}y</p>
                     {ageProjection.queryDate && (
-                      <span className="font-normal text-indigo-500"> · {ageProjection.queryDate}</span>
+                      <p className="text-sm text-indigo-400">{ageProjection.queryDate}</p>
                     )}
-                  </p>
-                  <div className="flex gap-6 text-sm text-indigo-700">
-                    <span>Weight: <strong>
-                      {ageProjection.childRow.wUncert !== null
-                        ? `${fmtW(ageProjection.childRow.estW - ageProjection.childRow.wUncert)} – ${fmtW(ageProjection.childRow.estW + ageProjection.childRow.wUncert)}`
-                        : fmtW(ageProjection.childRow.estW)}
-                    </strong> ({ageProjection.childRow.wPct}th pct)</span>
-                    <span>Height: <strong>
-                      {ageProjection.childRow.hUncert !== null
-                        ? `${fmtH(ageProjection.childRow.estH - ageProjection.childRow.hUncert)} – ${fmtH(ageProjection.childRow.estH + ageProjection.childRow.hUncert)}`
-                        : fmtH(ageProjection.childRow.estH)}
-                    </strong> ({ageProjection.childRow.hPct}th pct)</span>
+                  </div>
+                  <div className="flex gap-6">
+                    <div>
+                      <p className="text-xs font-medium text-indigo-400 mb-0.5">Weight</p>
+                      <p className="text-xl font-bold text-indigo-700">
+                        {ageProjection.childRow.wUncert !== null
+                          ? `${fmtW(ageProjection.childRow.estW - ageProjection.childRow.wUncert)} – ${fmtW(ageProjection.childRow.estW + ageProjection.childRow.wUncert)}`
+                          : fmtW(ageProjection.childRow.estW)}
+                      </p>
+                      <p className="text-xs text-indigo-400">{ageProjection.childRow.wPct}th percentile</p>
+                    </div>
+                    <div>
+                      <p className="text-xs font-medium text-indigo-400 mb-0.5">Height</p>
+                      <p className="text-xl font-bold text-indigo-700">
+                        {ageProjection.childRow.hUncert !== null
+                          ? `${fmtH(ageProjection.childRow.estH - ageProjection.childRow.hUncert)} – ${fmtH(ageProjection.childRow.estH + ageProjection.childRow.hUncert)}`
+                          : fmtH(ageProjection.childRow.estH)}
+                      </p>
+                      <p className="text-xs text-indigo-400">{ageProjection.childRow.hPct}th percentile</p>
+                    </div>
                   </div>
                 </div>
               )}
