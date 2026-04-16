@@ -275,7 +275,7 @@ export default function App() {
 
         {/* Settings */}
         <div className="bg-white rounded-2xl shadow-sm p-5 space-y-4">
-          <h2 className="font-semibold text-gray-700">Settings</h2>
+          <h2 className="font-semibold text-gray-700">Profile</h2>
           <div>
             <label className="text-xs text-gray-500 mb-1 block">Birthday</label>
             <input className={inputCls} type="date" value={birthday}
